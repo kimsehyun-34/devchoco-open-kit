@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+target/
+*.tsbuildinfo
+
+# Test and coverage output
+coverage/
+
+# Logs
+*.log
+
+# Environment files (keep a committed example if you add one)
+.env*
+!.env.example
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
