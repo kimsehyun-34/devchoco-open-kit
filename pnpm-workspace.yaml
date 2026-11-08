@@ -1,0 +1,7 @@
+packages:
+  - "packages/*"
+
+# Dependency install scripts stay disabled; the toolchain only needs prebuilt binaries
+# that arrive through optional dependencies.
+allowBuilds:
+  esbuild: false
