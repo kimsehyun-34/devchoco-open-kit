@@ -1,0 +1,19 @@
+[package]
+name = "safe-download"
+version = "0.1.0"
+edition = "2021"
+description = "Stream a URL into a file without ever leaving a half-written or overwritten file behind."
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/kimsehyun-34/devchoco-open-kit"
+homepage = "https://github.com/kimsehyun-34/devchoco-open-kit/tree/main/crates/safe-download"
+publish = false
+
+[dependencies]
+# HTTP/1.1 over rustls, no system-proxy or HTTP/2 extras, so the dependency set stays small.
+reqwest = { version = "0.13", default-features = false, features = ["stream", "rustls-no-provider"] }
+rustls = { version = "0.23", default-features = false, features = ["ring"] }
+tokio = { version = "1", default-features = false, features = ["fs", "io-util", "rt", "sync"] }
+
+[dev-dependencies]
+tokio = { version = "1", default-features = false, features = ["rt", "time"] }
