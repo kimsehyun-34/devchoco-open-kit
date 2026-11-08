@@ -36,6 +36,9 @@ Each part documents its own API, with examples, in its README:
 - [`packages/channel-icons/README.md`](packages/channel-icons/README.md)
 - [`crates/safe-download/README.md`](crates/safe-download/README.md)
 
+A runnable example of the icon picker is in
+[`examples/channel-icons-demo`](examples/channel-icons-demo).
+
 ## Repository layout
 
 ```text
@@ -44,6 +47,8 @@ Each part documents its own API, with examples, in its README:
 │   └── channel-icons/     TypeScript package (Vitest tests)
 ├── crates/
 │   └── safe-download/     Rust crate (cargo tests)
+├── examples/
+│   └── channel-icons-demo/  Vite + React page using the icon tile and picker
 ├── .github/               CI, issue and PR templates, Dependabot, CODEOWNERS
 ├── package.json           pnpm workspace root (scripts only, private)
 ├── pnpm-workspace.yaml    pnpm workspace definition
