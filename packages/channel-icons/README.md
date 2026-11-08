@@ -125,8 +125,10 @@ or dark tiles get the light one.
 
 - The icon section is a grid of 44px cells showing all 20 glyphs, each drawn on a tile in the color
   that is currently selected, so the grid doubles as a preview. The selected cell has a 2px accent
-  border. The grid fits as many cells per row as the width allows and shares leftover space; at
-  320px that is five per row, four rows.
+  border. The grid fits as many cells per row as the width allows and shares leftover space. The
+  count follows the width of the grid, not of the screen: measured in the demo page, a 320px
+  screen (a grid about 270px wide) gets five per row in four rows, and a 360px screen (about 310px)
+  gets six per row.
 - The color section is one wrapping row. It starts with a pill reading "Auto" next to a dot in the
   `autoColor`, then eight 28px dots in the default palette. The selected dot gets a gap-and-ring
   halo; the selected pill gets the accent border.
@@ -192,6 +194,15 @@ pnpm --filter channel-icons run build   # dist/index.js, dist/*.d.ts, dist/style
 The tests run in jsdom with Testing Library. jsdom does not implement the browser's arrow-key
 movement between radios, so the keyboard tests use `user-event`, which emulates it. A real browser
 pass over the same behavior, and over layout at 320px, is worth repeating after any CSS change.
+
+`src/a11y.test.tsx` runs [axe-core](https://github.com/dequelabs/axe-core) (WCAG 2.0 to 2.2 A/AA
+and best practices) over the tile and over the picker in its main states: default, Korean labels,
+disabled, a colour outside the palette, an unknown icon key and a partly named custom palette.
+jsdom has no layout, so axe cannot measure colour contrast or target size there and the
+`color-contrast` rule is switched off in those tests; contrast is covered by the maths tests
+instead. To check both in a real browser, build the demo in `examples/channel-icons-demo`, open it
+with axe-core injected, and repeat in light, dark, 320px and forced-colors modes. The last run of
+that kind found no violations in any of the four.
 
 ## Limits
 
