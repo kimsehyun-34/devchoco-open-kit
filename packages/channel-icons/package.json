@@ -1,0 +1,66 @@
+{
+  "name": "channel-icons",
+  "version": "0.1.0",
+  "description": "Accessible channel icon tile and icon/color picker for React: 20 inline SVG glyphs, automatic glyph contrast, native radio groups.",
+  "keywords": [
+    "react",
+    "icon",
+    "icon-picker",
+    "color-picker",
+    "accessibility",
+    "channel"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kimsehyun-34/devchoco-open-kit.git",
+    "directory": "packages/channel-icons"
+  },
+  "homepage": "https://github.com/kimsehyun-34/devchoco-open-kit/tree/main/packages/channel-icons#readme",
+  "bugs": {
+    "url": "https://github.com/kimsehyun-34/devchoco-open-kit/issues"
+  },
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "clean": "node scripts/clean.mjs",
+    "build": "node scripts/clean.mjs && tsc -p tsconfig.build.json && node scripts/copy-css.mjs",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "prepack": "pnpm run build"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.0",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "jsdom": "^26.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typescript": "~5.9.0",
+    "vitest": "^4.1.12"
+  }
+}

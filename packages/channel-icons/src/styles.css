@@ -1,0 +1,259 @@
+/*
+ * channel-icons stylesheet. Import once: `import "channel-icons/styles.css";`
+ *
+ * Custom properties
+ * -----------------
+ * Tile (.channel-icon)
+ *   --channel-icon-size    Tile edge. Set by the `size` prop; default 24px.
+ *   --channel-icon-bg      Tile background. Set by the `color` prop; default #475569.
+ *   --channel-icon-fg      Glyph color. Set automatically from --channel-icon-bg; default #fff.
+ *                          If you set --channel-icon-bg yourself, set this one too.
+ *   --channel-icon-radius  Corner radius as a fraction of the tile edge; default 0.3.
+ *
+ * Picker (.channel-picker). Every token below can be set on the picker or any ancestor.
+ *   --channel-picker-text      Text color.
+ *   --channel-picker-muted     Legend color.
+ *   --channel-picker-border    Ring around color swatches (needs 3:1 against the surface).
+ *   --channel-picker-accent    Border of the selected choice.
+ *   --channel-picker-focus     Keyboard focus ring.
+ *   --channel-picker-surface   Page color behind the picker (the gap in the selection ring).
+ *   --channel-picker-choice    Minimum size of one choice; default 44px.
+ *   --channel-picker-gap       Space between choices; default 6px.
+ *   --channel-picker-swatch    Set by the component on each color dot; do not set it yourself.
+ *
+ * Light and dark defaults follow the page's `color-scheme` (put `color-scheme: light dark` on
+ * :root if your app follows the OS setting, or `color-scheme: dark` on a dark theme).
+ * In forced-colors mode the picker switches to system colors, except the tiles and dots,
+ * which keep their own colors because the color is the thing being chosen.
+ */
+
+/* ---- Tile ------------------------------------------------------------------------- */
+
+.channel-icon {
+  --channel-icon-size: 24px;
+  box-sizing: border-box;
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+  inline-size: var(--channel-icon-size);
+  block-size: var(--channel-icon-size);
+  border-radius: calc(var(--channel-icon-size) * var(--channel-icon-radius, 0.3));
+  background: var(--channel-icon-bg, #475569);
+  color: var(--channel-icon-fg, #ffffff);
+  line-height: 0;
+  vertical-align: middle;
+}
+
+.channel-icon > svg {
+  display: block;
+  flex: none;
+}
+
+/* ---- Picker ----------------------------------------------------------------------- */
+
+.channel-picker {
+  --_text: var(--channel-picker-text, #1f2937);
+  --_muted: var(--channel-picker-muted, #4b5563);
+  --_border: var(--channel-picker-border, #6b7280);
+  --_accent: var(--channel-picker-accent, #2563eb);
+  --_focus: var(--channel-picker-focus, #1d4ed8);
+  --_surface: var(--channel-picker-surface, #ffffff);
+  box-sizing: border-box;
+  display: grid;
+  gap: 16px;
+  inline-size: 100%;
+  max-inline-size: 100%;
+  min-inline-size: 0;
+  color: var(--_text);
+  font: inherit;
+}
+
+/* Dark defaults follow the page's `color-scheme`, not the OS setting, so a light page never
+   gets pale text just because the OS is dark. Browsers without light-dark() keep the light set. */
+@supports (color: light-dark(#000, #fff)) {
+  .channel-picker {
+    --_text: var(--channel-picker-text, light-dark(#1f2937, #e5e7eb));
+    --_muted: var(--channel-picker-muted, light-dark(#4b5563, #9ca3af));
+    --_border: var(--channel-picker-border, light-dark(#6b7280, #9ca3af));
+    --_accent: var(--channel-picker-accent, light-dark(#2563eb, #60a5fa));
+    --_focus: var(--channel-picker-focus, light-dark(#1d4ed8, #93c5fd));
+    --_surface: var(--channel-picker-surface, light-dark(#ffffff, #111827));
+  }
+}
+
+.channel-picker *,
+.channel-picker *::before,
+.channel-picker *::after {
+  box-sizing: border-box;
+}
+
+/* A fieldset defaults to min-content width, which is what makes pickers overflow at 320px. */
+.channel-picker-group {
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.channel-picker-legend {
+  margin: 0 0 8px;
+  padding: 0;
+  color: var(--_muted);
+  font-size: 0.8125rem;
+  line-height: 1.3;
+}
+
+/* Icons: as many 44px cells per row as fit, sharing leftover space. */
+.channel-picker-icons {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(var(--channel-picker-choice, 44px), 1fr)
+  );
+  gap: var(--channel-picker-gap, 6px);
+  justify-items: center;
+}
+
+.channel-picker-colors {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--channel-picker-gap, 6px);
+}
+
+.channel-picker-choice {
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+}
+
+/* The real radio covers the whole choice, invisible but focusable and clickable. */
+.channel-picker-input {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.channel-picker-face {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-inline-size: var(--channel-picker-choice, 44px);
+  min-block-size: var(--channel-picker-choice, 44px);
+  padding: 3px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  color: var(--_text);
+}
+
+.channel-picker-face-auto {
+  padding-inline-end: 12px;
+}
+
+.channel-picker-auto-text {
+  font-size: 0.875rem;
+  line-height: 1.2;
+}
+
+.channel-picker-input:checked + .channel-picker-face {
+  border-color: var(--_accent);
+  box-shadow: inset 0 0 0 1px var(--_accent);
+}
+
+.channel-picker-input:focus-visible + .channel-picker-face {
+  outline: 2px solid var(--_focus);
+  outline-offset: 2px;
+}
+
+/* Color dot: a filled circle with a ring so pale colors stay visible on any surface. */
+.channel-picker-dot {
+  flex: none;
+  inline-size: 28px;
+  block-size: 28px;
+  border-radius: 50%;
+  background: var(--channel-picker-swatch, var(--channel-icon-bg, #475569));
+  box-shadow: inset 0 0 0 1px var(--_border);
+}
+
+.channel-picker-input:checked + .channel-picker-face > .channel-picker-dot:only-child {
+  box-shadow:
+    inset 0 0 0 1px var(--_border),
+    0 0 0 2px var(--_surface),
+    0 0 0 4px var(--_accent);
+}
+
+.channel-picker-group:disabled .channel-picker-choice {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Visually hidden text that still names each radio. */
+.channel-picker-sr {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---- Forced colors ---------------------------------------------------------------- */
+
+@media (forced-colors: active) {
+  .channel-icon {
+    border: 1px solid CanvasText;
+  }
+
+  /* Inside the picker the choice already has a border. */
+  .channel-picker .channel-icon {
+    border: 0;
+  }
+
+  /* Keep the chosen colors: they are the data. The glyph color was computed to match. */
+  .channel-icon[data-color],
+  .channel-picker-dot {
+    forced-color-adjust: none;
+  }
+
+  .channel-picker-dot,
+  .channel-picker-input:checked + .channel-picker-face > .channel-picker-dot:only-child {
+    box-shadow: none;
+    border: 1px solid CanvasText;
+  }
+
+  .channel-picker-face {
+    border-color: ButtonBorder;
+  }
+
+  /*
+   * Selected: a thicker double border, so the state does not rest on hue alone. The padding
+   * shrinks by the same amount, so nothing moves. A Highlight fill is avoided on purpose:
+   * Chromium then paints its own backplate behind the "Auto" text and hides it.
+   */
+  .channel-picker-input:checked + .channel-picker-face {
+    padding: 0;
+    border: 5px double Highlight;
+    box-shadow: none;
+  }
+
+  .channel-picker-input:checked + .channel-picker-face-auto {
+    padding-inline-end: 9px;
+  }
+
+  .channel-picker-input:focus-visible + .channel-picker-face {
+    outline: 3px solid CanvasText;
+    outline-offset: 3px;
+  }
+
+  .channel-picker-group:disabled .channel-picker-face {
+    border-color: GrayText;
+  }
+}
