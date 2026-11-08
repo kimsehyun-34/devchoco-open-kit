@@ -1,0 +1,3 @@
+# Keeps short struct literals, calls and closures on one line, as the code base is written.
+# Run `cargo fmt --all` to apply it (CI checks it with `cargo fmt --all -- --check`).
+use_small_heuristics = "Max"
